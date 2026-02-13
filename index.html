@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AfrexAI — Context Packs & AI Agent Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .card-glow:hover { box-shadow: 0 0 40px rgba(99,102,241,0.15); }
+        .ladder-step { position: relative; }
+        .ladder-step::after { content: ''; position: absolute; top: 50%; right: -2rem; width: 1.5rem; height: 2px; background: linear-gradient(90deg, #6366f1, #a855f7); }
+        .ladder-step:last-child::after { display: none; }
+        @media (max-width: 768px) {
+            .ladder-step::after { top: auto; bottom: -1.5rem; right: 50%; width: 2px; height: 1.5rem; transform: translateX(50%); background: linear-gradient(180deg, #6366f1, #a855f7); }
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+
+    <!-- Nav -->
+    <nav class="border-b border-gray-800/50 backdrop-blur-sm sticky top-0 z-50 bg-gray-950/80">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="#" class="text-xl font-bold gradient-text">AfrexAI</a>
+            <div class="hidden sm:flex gap-6 text-sm text-gray-400">
+                <a href="#packs" class="hover:text-white transition">Context Packs</a>
+                <a href="#services" class="hover:text-white transition">Services</a>
+                <a href="#roi" class="hover:text-white transition">ROI</a>
+                <a href="#ladder" class="hover:text-white transition">The Ladder</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="max-w-6xl mx-auto px-6 py-24 md:py-32 text-center">
+        <h1 class="text-4xl md:text-6xl font-black leading-tight mb-6">
+            AI That <span class="gradient-text">Actually Works</span> For Your Business
+        </h1>
+        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+            From ready-made context packs to fully managed AI agent swarms — we give you the intelligence layer your business needs.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#packs" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition">Browse Context Packs</a>
+            <a href="#services" class="px-8 py-3 border border-gray-700 hover:border-indigo-500 rounded-lg font-semibold transition">Explore Services</a>
+        </div>
+    </section>
+
+    <!-- Context Packs -->
+    <section id="packs" class="max-w-6xl mx-auto px-6 py-20">
+        <div class="text-center mb-16">
+            <p class="text-indigo-400 font-semibold text-sm uppercase tracking-wider mb-3">Products</p>
+            <h2 class="text-3xl md:text-4xl font-bold">Context Packs — $97</h2>
+            <p class="text-gray-400 mt-4 max-w-xl mx-auto">Pre-built research and configuration bundles that plug straight into your AI tools. Instant expertise, zero ramp-up.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8 card-glow transition">
+                <div class="text-3xl mb-4">🏗️</div>
+                <h3 class="text-xl font-bold mb-2">Industry Packs</h3>
+                <p class="text-gray-400 text-sm">Deep research for your vertical — competitors, regulations, market trends, and strategic frameworks baked into one context file.</p>
+            </div>
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8 card-glow transition">
+                <div class="text-3xl mb-4">⚙️</div>
+                <h3 class="text-xl font-bold mb-2">Workflow Packs</h3>
+                <p class="text-gray-400 text-sm">Preconfigured prompts, SOPs, and automation templates for sales, marketing, ops, and customer success.</p>
+            </div>
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8 card-glow transition">
+                <div class="text-3xl mb-4">🧠</div>
+                <h3 class="text-xl font-bold mb-2">SOUL.md Starter</h3>
+                <p class="text-gray-400 text-sm">A personality and knowledge base file for your AI agent — tone, rules, memory structure, and domain expertise ready to go.</p>
+            </div>
+        </div>
+        <div class="text-center mt-12">
+            <a href="mailto:ksmolichki@afrexai.com?subject=Context%20Pack%20Inquiry&body=I'm%20interested%20in%20a%20context%20pack.%0A%0AIndustry:%0AUse%20case:" class="inline-block px-8 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition">Get a Context Pack — $97</a>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="py-20 bg-gray-900/50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <p class="text-purple-400 font-semibold text-sm uppercase tracking-wider mb-3">Services</p>
+                <h2 class="text-3xl md:text-4xl font-bold">Agents-as-a-Service</h2>
+                <p class="text-gray-400 mt-4 max-w-xl mx-auto">From setup to fully managed — we handle the AI so you can handle the business.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Agent Setup -->
+                <div class="bg-gray-950 border border-gray-800 rounded-2xl p-8 card-glow transition flex flex-col">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400 bg-indigo-400/10 px-3 py-1 rounded-full">One-Time</span>
+                        <span class="text-3xl font-black">$500</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Agent Setup Service</h3>
+                    <p class="text-purple-300 italic mb-6">"We build your AI agent. You use it."</p>
+                    <ul class="space-y-3 text-gray-300 text-sm flex-1">
+                        <li class="flex gap-3"><span class="text-indigo-400">✓</span> 48-hour delivery</li>
+                        <li class="flex gap-3"><span class="text-indigo-400">✓</span> Full OpenClaw setup — email, CRM, calendar, messaging</li>
+                        <li class="flex gap-3"><span class="text-indigo-400">✓</span> Custom SOUL.md tuned to your business</li>
+                        <li class="flex gap-3"><span class="text-indigo-400">✓</span> Encrypted vault for credentials</li>
+                        <li class="flex gap-3"><span class="text-indigo-400">✓</span> Cron jobs configured</li>
+                        <li class="flex gap-3"><span class="text-indigo-400">✓</span> 30-min handoff call</li>
+                    </ul>
+                    <a href="mailto:ksmolichki@afrexai.com?subject=Agent Setup Service&body=I'd like to get an AI agent set up for my business.%0A%0AIndustry:%0ACompany:%0AWhat I need help with:" class="mt-8 block text-center px-6 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition">Get Started — $500</a>
+                </div>
+                <!-- Managed -->
+                <div class="bg-gray-950 border border-purple-500/30 rounded-2xl p-8 card-glow transition flex flex-col relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-purple-600 text-xs font-bold px-4 py-1 rounded-bl-lg">POPULAR</div>
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-purple-400 bg-purple-400/10 px-3 py-1 rounded-full">Monthly</span>
+                        <div class="text-right">
+                            <span class="text-3xl font-black">$1,500</span>
+                            <span class="text-gray-400 text-sm">/mo</span>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Managed Agent Service</h3>
+                    <p class="text-purple-300 italic mb-6">"Your AI team, fully managed."</p>
+                    <ul class="space-y-3 text-gray-300 text-sm flex-1">
+                        <li class="flex gap-3"><span class="text-purple-400">✓</span> We host, monitor, update &amp; improve your agents</li>
+                        <li class="flex gap-3"><span class="text-purple-400">✓</span> Monthly context updates with fresh research</li>
+                        <li class="flex gap-3"><span class="text-purple-400">✓</span> Priority Slack / Telegram support</li>
+                        <li class="flex gap-3"><span class="text-purple-400">✓</span> Monthly performance report</li>
+                    </ul>
+                    <a href="mailto:ksmolichki@afrexai.com?subject=Managed Agent Service&body=I'm interested in fully managed AI agents.%0A%0AIndustry:%0ACompany size:%0AWhat agents I need:" class="mt-8 block text-center px-6 py-3 bg-purple-600 hover:bg-purple-500 rounded-lg font-semibold transition">Start Managed — from $1,500/mo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI -->
+    <section id="roi" class="max-w-6xl mx-auto px-6 py-20">
+        <div class="text-center mb-16">
+            <p class="text-pink-400 font-semibold text-sm uppercase tracking-wider mb-3">The Math</p>
+            <h2 class="text-3xl md:text-4xl font-bold">Why This Is a No-Brainer</h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8 text-center">
+                <p class="text-5xl font-black text-red-400 mb-2">$35–50K</p>
+                <p class="text-gray-400">One junior hire per year</p>
+                <p class="text-xs text-gray-500 mt-2">Limited hours · Ramp-up time · Sick days · Turnover risk</p>
+            </div>
+            <div class="bg-gray-900 border border-indigo-500/30 rounded-2xl p-8 text-center">
+                <p class="text-5xl font-black gradient-text mb-2">$18K</p>
+                <p class="text-gray-300">One AI agent swarm per year</p>
+                <p class="text-xs text-indigo-300 mt-2">24/7 · No sick days · No ramp-up · Instant scale</p>
+            </div>
+        </div>
+        <div class="mt-12 text-center">
+            <div class="inline-flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-full px-8 py-4">
+                <span class="text-3xl">⏱️</span>
+                <p class="text-lg"><span class="font-bold text-white">Average client saves 20+ hours/week</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Ladder -->
+    <section id="ladder" class="py-20 bg-gray-900/50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <p class="text-indigo-400 font-semibold text-sm uppercase tracking-wider mb-3">The Upgrade Path</p>
+                <h2 class="text-3xl md:text-4xl font-bold">Start Small. Scale Smart.</h2>
+                <p class="text-gray-400 mt-4">Every step unlocks more value.</p>
+            </div>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-4">
+                <!-- Step 1 -->
+                <div class="ladder-step bg-gray-950 border border-gray-800 rounded-2xl p-6 text-center w-full md:w-64">
+                    <div class="text-4xl mb-3">📦</div>
+                    <p class="text-sm text-gray-400 uppercase tracking-wider mb-1">Step 1</p>
+                    <h3 class="text-lg font-bold mb-1">Context Pack</h3>
+                    <p class="text-2xl font-black text-indigo-400">$97</p>
+                    <p class="text-xs text-gray-500 mt-2">Instant AI expertise</p>
+                </div>
+                <!-- Arrow (mobile) -->
+                <div class="hidden md:flex text-3xl text-indigo-400 font-bold">→</div>
+                <div class="md:hidden text-3xl text-indigo-400 font-bold">↓</div>
+                <!-- Step 2 -->
+                <div class="ladder-step bg-gray-950 border border-gray-800 rounded-2xl p-6 text-center w-full md:w-64">
+                    <div class="text-4xl mb-3">🤖</div>
+                    <p class="text-sm text-gray-400 uppercase tracking-wider mb-1">Step 2</p>
+                    <h3 class="text-lg font-bold mb-1">Agent Setup</h3>
+                    <p class="text-2xl font-black text-purple-400">$500</p>
+                    <p class="text-xs text-gray-500 mt-2">Your agent, built for you</p>
+                </div>
+                <!-- Arrow -->
+                <div class="hidden md:flex text-3xl text-purple-400 font-bold">→</div>
+                <div class="md:hidden text-3xl text-purple-400 font-bold">↓</div>
+                <!-- Step 3 -->
+                <div class="bg-gray-950 border border-purple-500/50 rounded-2xl p-6 text-center w-full md:w-64 ring-1 ring-purple-500/20">
+                    <div class="text-4xl mb-3">🚀</div>
+                    <p class="text-sm text-gray-400 uppercase tracking-wider mb-1">Step 3</p>
+                    <h3 class="text-lg font-bold mb-1">Managed Service</h3>
+                    <p class="text-2xl font-black text-pink-400">$18,000+<span class="text-sm text-gray-400">/yr</span></p>
+                    <p class="text-xs text-gray-500 mt-2">Full AI team, fully managed</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-6xl mx-auto px-6 py-20 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Put AI to Work?</h2>
+        <p class="text-gray-400 mb-10 max-w-lg mx-auto">Start with a context pack, or jump straight to a fully managed agent swarm. Either way, you win.</p>
+        <a href="mailto:ksmolichki@afrexai.com?subject=AfrexAI Inquiry" class="inline-block px-10 py-4 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-bold text-lg transition">Let's Talk →</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800/50 py-8">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+            <p>© 2026 AfrexAI. All rights reserved.</p>
+            <a href="mailto:ksmolichki@afrexai.com" class="hover:text-white transition">ksmolichki@afrexai.com</a>
+        </div>
+    </footer>
+
+</body>
+</html>
