@@ -10,13 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * { font-family: 'Inter', sans-serif; }
-        .gradient-text { background: linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .card-glow:hover { box-shadow: 0 0 30px rgba(99,102,241,0.15); }
+        .gradient-text { background: linear-gradient(135deg, #facc15, #eab308, #fde047); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .card-glow:hover { box-shadow: 0 0 30px rgba(250,204,21,0.15); }
         .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
-        .bundle-highlight { background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1)); border: 1px solid rgba(99,102,241,0.3); }
+        .bundle-highlight { background: linear-gradient(135deg, rgba(250,204,21,0.1), rgba(234,179,8,0.1)); border: 1px solid rgba(250,204,21,0.3); }
         .best-deal { position: relative; }
-        .best-deal::before { content: "BEST DEAL"; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; font-size: 0.7rem; font-weight: 700; padding: 2px 12px; border-radius: 9999px; letter-spacing: 0.05em; }
+        .best-deal::before { content: "BEST DEAL"; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #facc15, #eab308); color: black; font-size: 0.7rem; font-weight: 700; padding: 2px 12px; border-radius: 9999px; letter-spacing: 0.05em; }
         html { scroll-behavior: smooth; }
     </style>
     <script>
@@ -25,7 +25,7 @@
                 extend: {
                     colors: {
                         dark: { 900: '#0a0a0f', 800: '#12121a', 700: '#1a1a2e', 600: '#252540' },
-                        accent: { DEFAULT: '#6366f1', light: '#818cf8' }
+                        accent: { DEFAULT: '#eab308', light: '#facc15' }
                     }
                 }
             }
@@ -44,7 +44,7 @@
             <a href="#packs" class="text-sm text-gray-400 hover:text-white transition hidden sm:block">Packs</a>
             <a href="#bundles" class="text-sm text-gray-400 hover:text-white transition hidden sm:block">Bundles</a>
             <a href="#faq" class="text-sm text-gray-400 hover:text-white transition hidden sm:block">FAQ</a>
-            <a href="#bundles" class="bg-accent hover:bg-accent-light text-white text-sm font-semibold px-4 py-2 rounded-lg transition">Get Started</a>
+            <a href="#bundles" class="bg-accent hover:bg-accent-light text-black text-sm font-semibold px-4 py-2 rounded-lg transition">Get Started</a>
         </div>
     </div>
 </nav>
@@ -52,7 +52,7 @@
 <!-- Hero -->
 <section class="pt-32 pb-20 px-4">
     <div class="max-w-4xl mx-auto text-center">
-        <div class="inline-block mb-6 px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-sm font-medium">
+        <div class="inline-block mb-6 px-4 py-1.5 rounded-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-300 text-sm font-medium">
             Built from running a 9-agent AI swarm in production
         </div>
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-tight mb-6">
@@ -67,7 +67,7 @@
             Weeks of research, packaged in minutes. Each pack = 10 deep-research files your agents can use immediately.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#packs" class="bg-accent hover:bg-accent-light text-white font-semibold px-8 py-3.5 rounded-xl transition text-lg">Browse Packs — $97 each</a>
+            <a href="#packs" class="bg-accent hover:bg-accent-light text-black font-semibold px-8 py-3.5 rounded-xl transition text-lg">Browse Packs — $97 each</a>
             <a href="#bundles" class="border border-gray-700 hover:border-accent text-white font-semibold px-8 py-3.5 rounded-xl transition text-lg">See Bundles & Save</a>
         </div>
     </div>
@@ -136,7 +136,7 @@
                     <span class="text-2xl font-bold text-white">$59</span>
                     <span class="text-gray-500 text-sm">/ £49</span>
                 </div>
-                <a href="https://buy.stripe.com/00w7sLdlL10q4868n5b7y0h" target="_blank" class="block text-center bg-accent hover:bg-accent-light text-white font-semibold px-6 py-3 rounded-xl transition">Buy Playbook →</a>
+                <a href="https://buy.stripe.com/00w7sLdlL10q4868n5b7y0h" target="_blank" class="block text-center bg-accent hover:bg-accent-light text-black font-semibold px-6 py-3 rounded-xl transition">Buy Playbook →</a>
             </div>
             <div class="bg-dark-700 rounded-2xl p-8 border border-gray-800 card-glow transition">
                 <div class="text-3xl mb-4">🧠</div>
@@ -146,7 +146,7 @@
                     <span class="text-2xl font-bold text-white">$2,500</span>
                     <span class="text-gray-500 text-sm">30-min call</span>
                 </div>
-                <a href="mailto:ksmolichki@afrexai.com?subject=Order%3A%20AI%20Strategy%20Consultation&body=I'd%20like%20to%20book%20an%20AI%20Strategy%20Consultation%20(%242%2C500).%0A%0AName%3A%20%0ACompany%3A%20%0ABrief%20description%20of%20what%20you%20want%20to%20discuss%3A%20" class="block text-center bg-accent hover:bg-accent-light text-white font-semibold px-6 py-3 rounded-xl transition">Book a Call</a>
+                <a href="mailto:ksmolichki@afrexai.com?subject=Order%3A%20AI%20Strategy%20Consultation&body=I'd%20like%20to%20book%20an%20AI%20Strategy%20Consultation%20(%242%2C500).%0A%0AName%3A%20%0ACompany%3A%20%0ABrief%20description%20of%20what%20you%20want%20to%20discuss%3A%20" class="block text-center bg-accent hover:bg-accent-light text-black font-semibold px-6 py-3 rounded-xl transition">Book a Call</a>
             </div>
         </div>
     </div>
@@ -192,7 +192,7 @@
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
             <input type="email" name="email" required placeholder="your@email.com" class="flex-1 bg-dark-700 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-accent">
-            <button type="submit" class="bg-accent hover:bg-accent-light text-white font-semibold px-6 py-3 rounded-xl transition whitespace-nowrap">Notify Me</button>
+            <button type="submit" class="bg-accent hover:bg-accent-light text-black font-semibold px-6 py-3 rounded-xl transition whitespace-nowrap">Notify Me</button>
         </form>
     </div>
 </section>
@@ -200,7 +200,7 @@
 <!-- Footer -->
 <footer class="border-t border-gray-800/50 py-10 px-4">
     <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-        <div><span class="text-white font-semibold">Afrex</span><span class="gradient-text font-semibold">AI</span> © 2025</div>
+        <div><span class="text-white font-semibold">Afrex</span><span class="gradient-text font-semibold">AI</span> © 2026</div>
         <div>Questions? <a href="mailto:ksmolichki@afrexai.com" class="text-accent hover:text-accent-light">ksmolichki@afrexai.com</a></div>
     </div>
 </footer>
@@ -270,7 +270,7 @@ bundles.forEach(b => {
                 <span class="text-2xl font-bold text-white">${b.price}</span>
                 ${b.save ? `<span class="text-green-400 text-sm font-semibold">Save ${b.save}</span>` : ''}
             </div>
-            <a href="${link}" target="_blank" class="block text-center bg-accent hover:bg-accent-light text-white font-semibold px-4 py-3 rounded-xl transition">Buy Now →</a>
+            <a href="${link}" target="_blank" class="block text-center bg-accent hover:bg-accent-light text-black font-semibold px-4 py-3 rounded-xl transition">Buy Now →</a>
         </div>`;
 });
 
