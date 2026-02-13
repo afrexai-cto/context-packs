@@ -146,7 +146,7 @@
                     <span class="text-2xl font-bold text-white">$2,500</span>
                     <span class="text-gray-500 text-sm">30-min call</span>
                 </div>
-                <a href="mailto:ksmolichki@afrexai.com?subject=Order%3A%20AI%20Strategy%20Consultation&body=I'd%20like%20to%20book%20an%20AI%20Strategy%20Consultation%20(%242%2C500).%0A%0AName%3A%20%0ACompany%3A%20%0ABrief%20description%20of%20what%20you%20want%20to%20discuss%3A%20" class="block text-center bg-accent hover:bg-accent-light text-black font-semibold px-6 py-3 rounded-xl transition">Book a Call</a>
+                <a href="https://buy.stripe.com/fZu6oH3Lb9wW0VU0UDb7y0i" target="_blank" class="block text-center bg-accent hover:bg-accent-light text-black font-semibold px-6 py-3 rounded-xl transition">Book a Call →</a>
             </div>
         </div>
     </div>
@@ -201,7 +201,7 @@
 <footer class="border-t border-gray-800/50 py-10 px-4">
     <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
         <div><span class="text-white font-semibold">Afrex</span><span class="gradient-text font-semibold">AI</span> © 2026</div>
-        <div>Questions? <a href="mailto:ksmolichki@afrexai.com" class="text-accent hover:text-accent-light">ksmolichki@afrexai.com</a></div>
+        <div>Questions? <a href="https://afrexai-cto.github.io/agent-setup/" class="text-accent hover:text-accent-light">Try the free setup wizard</a></div>
     </div>
 </footer>
 
@@ -261,7 +261,12 @@ const bundleStripeLinks = {
 
 const bundlesGrid = document.getElementById('bundles-grid');
 bundles.forEach(b => {
-    const link = bundleStripeLinks[b.name] || `mailto:ksmolichki@afrexai.com?subject=Order%3A%20${encodeURIComponent(b.name)}&body=I'd%20like%20to%20order%20the%20${encodeURIComponent(b.name)}%20(${encodeURIComponent(b.price)}).%0A%0AName%3A%20%0APreferred%20payment%20method%3A%20`;
+const bundleStripeLinksAll = {
+        "Pick 3": "https://buy.stripe.com/14A4gzchHfVk486eLtb7y0j",
+        "Pick 5": "https://buy.stripe.com/00wbJ1gxXcJ8486gTBb7y0k",
+        ...bundleStripeLinks
+    };
+    const link = bundleStripeLinksAll[b.name] || bundleStripeLinks[b.name] || '#';
     bundlesGrid.innerHTML += `
         <div class="bundle-highlight rounded-2xl p-6 card-glow transition flex flex-col ${b.tag}">
             <h3 class="text-xl font-bold text-white mb-2">${b.name}</h3>
