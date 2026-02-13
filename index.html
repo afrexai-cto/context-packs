@@ -136,7 +136,7 @@
                     <span class="text-2xl font-bold text-white">$59</span>
                     <span class="text-gray-500 text-sm">/ £49</span>
                 </div>
-                <a href="mailto:ksmolichki@afrexai.com?subject=Order%3A%20AI%20Automation%20Playbook&body=I'd%20like%20to%20order%20the%20AI%20Automation%20Playbook%20(%2459%20%2F%20%C2%A349).%0A%0AName%3A%20%0APreferred%20payment%20method%3A%20" class="block text-center bg-accent hover:bg-accent-light text-white font-semibold px-6 py-3 rounded-xl transition">Order Playbook</a>
+                <a href="https://buy.stripe.com/00w7sLdlL10q4868n5b7y0h" target="_blank" class="block text-center bg-accent hover:bg-accent-light text-white font-semibold px-6 py-3 rounded-xl transition">Buy Playbook →</a>
             </div>
             <div class="bg-dark-700 rounded-2xl p-8 border border-gray-800 card-glow transition">
                 <div class="text-3xl mb-4">🧠</div>
@@ -219,16 +219,29 @@ const packs = [
     { name: "Professional Services", icon: "💼", desc: "Consulting structures, utilization rates, partner tracks, Big 4 vs boutique. Knows that partners care about billable hours, not your AI pitch." }
 ];
 
+const stripeLinks = {
+    "Fintech": "https://buy.stripe.com/14A9ATepP4cC8omfPxb7y04",
+    "Healthcare": "https://buy.stripe.com/6oUbJ1bdD6kKeMK8n5b7y05",
+    "Legal": "https://buy.stripe.com/cNi5kDa9z10q3428n5b7y06",
+    "Construction / PropTech": "https://buy.stripe.com/6oUcN50yZeRg1ZY8n5b7y07",
+    "Ecommerce / DTC": "https://buy.stripe.com/7sYeVd95vaB08omfPxb7y08",
+    "SaaS / B2B Software": "https://buy.stripe.com/6oU00jftT4cCcEC6eXb7y09",
+    "Real Estate": "https://buy.stripe.com/00w8wP5TjdNcdIGavdb7y0a",
+    "Recruitment / HR": "https://buy.stripe.com/4gM14n5Tj7oO6ge46Pb7y0b",
+    "Manufacturing": "https://buy.stripe.com/6oUeVdgxX38y3425aTb7y0c",
+    "Professional Services": "https://buy.stripe.com/8x2dR9bdD9wWawu9r9b7y0d"
+};
+
 const packsGrid = document.getElementById('packs-grid');
 packs.forEach(p => {
-    const mailto = `mailto:ksmolichki@afrexai.com?subject=Order%3A%20${encodeURIComponent(p.name)}%20Context%20Pack&body=I'd%20like%20to%20order%20the%20${encodeURIComponent(p.name)}%20Context%20Pack%20(%2497).%0A%0AName%3A%20%0APreferred%20payment%20method%3A%20`;
+    const link = stripeLinks[p.name] || '#';
     packsGrid.innerHTML += `
         <div class="bg-dark-700 rounded-2xl p-6 border border-gray-800 card-glow transition flex flex-col">
             <div class="text-3xl mb-3">${p.icon}</div>
             <h3 class="text-lg font-bold text-white mb-2">${p.name}</h3>
             <p class="text-gray-400 text-sm mb-4 flex-1">${p.desc}</p>
             <div class="text-xl font-bold text-white mb-3">$97</div>
-            <a href="${mailto}" class="block text-center bg-dark-600 hover:bg-accent text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition">Order Pack</a>
+            <a href="${link}" target="_blank" class="block text-center bg-dark-600 hover:bg-accent text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition">Buy Now →</a>
         </div>`;
 });
 
@@ -240,9 +253,15 @@ const bundles = [
     { name: "Everything Bundle", price: "$597", save: "$573", desc: "All 10 context packs + the Business Swarm Kit. Everything you need to run intelligent agents across every industry.", tag: "best-deal" },
 ];
 
+const bundleStripeLinks = {
+    "All 10 Packs": "https://buy.stripe.com/6oU6oH95v9wW9sqbzhb7y0e",
+    "Business Swarm Kit": "https://buy.stripe.com/eVq14n4Pf10q4869r9b7y0f",
+    "Everything Bundle": "https://buy.stripe.com/dRmcN5chH6kKbAyavdb7y0g"
+};
+
 const bundlesGrid = document.getElementById('bundles-grid');
 bundles.forEach(b => {
-    const mailto = `mailto:ksmolichki@afrexai.com?subject=Order%3A%20${encodeURIComponent(b.name)}&body=I'd%20like%20to%20order%20the%20${encodeURIComponent(b.name)}%20(${encodeURIComponent(b.price)}).%0A%0AName%3A%20%0APreferred%20payment%20method%3A%20`;
+    const link = bundleStripeLinks[b.name] || `mailto:ksmolichki@afrexai.com?subject=Order%3A%20${encodeURIComponent(b.name)}&body=I'd%20like%20to%20order%20the%20${encodeURIComponent(b.name)}%20(${encodeURIComponent(b.price)}).%0A%0AName%3A%20%0APreferred%20payment%20method%3A%20`;
     bundlesGrid.innerHTML += `
         <div class="bundle-highlight rounded-2xl p-6 card-glow transition flex flex-col ${b.tag}">
             <h3 class="text-xl font-bold text-white mb-2">${b.name}</h3>
@@ -251,7 +270,7 @@ bundles.forEach(b => {
                 <span class="text-2xl font-bold text-white">${b.price}</span>
                 ${b.save ? `<span class="text-green-400 text-sm font-semibold">Save ${b.save}</span>` : ''}
             </div>
-            <a href="${mailto}" class="block text-center bg-accent hover:bg-accent-light text-white font-semibold px-4 py-3 rounded-xl transition">Order ${b.name}</a>
+            <a href="${link}" target="_blank" class="block text-center bg-accent hover:bg-accent-light text-white font-semibold px-4 py-3 rounded-xl transition">Buy Now →</a>
         </div>`;
 });
 
@@ -263,7 +282,7 @@ const faqs = [
     ["What if it's not useful for my use case?", "100% money-back guarantee. If the pack doesn't help your agents perform better, email us and we'll refund you. No questions, no hassle."],
     ["Can I use these commercially?", "Yes. Use them in your own agents, your client projects, your internal tools. The only thing you can't do is resell the raw files as-is."],
     ["What's the Business Swarm Kit?", "It's the operational layer: pre-built agent configurations, encrypted secrets vault, CRM integration templates, and cron job scheduling. Basically, the scaffolding for running multiple AI agents in coordination. Pairs perfectly with the context packs."],
-    ["Why email-based ordering?", "We're bootstrapping. Payment integration is coming. For now, email ordering means we can be flexible on payment methods and give you personal attention. Think of it as the concierge era."]
+    ["How do I pay?", "Secure card payments via Stripe. Click any Buy Now button and you'll be taken to a Stripe checkout page. Fast, safe, encrypted."]
 ];
 
 const faqContainer = document.getElementById('faq-container');
