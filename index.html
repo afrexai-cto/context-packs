@@ -67,7 +67,7 @@
             Weeks of research, packaged in minutes. Each pack = 10 deep-research files your agents can use immediately.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#packs" class="bg-accent hover:bg-accent-light text-black font-semibold px-8 py-3.5 rounded-xl transition text-lg">Browse Packs — $97 each</a>
+            <a href="#packs" class="bg-accent hover:bg-accent-light text-black font-semibold px-8 py-3.5 rounded-xl transition text-lg">Browse Packs — $47 each</a>
             <a href="#bundles" class="border border-gray-700 hover:border-accent text-white font-semibold px-8 py-3.5 rounded-xl transition text-lg">See Bundles & Save</a>
         </div>
     </div>
@@ -107,7 +107,7 @@
 <section class="py-20 px-4 fade-in" id="packs">
     <div class="max-w-6xl mx-auto">
         <h2 class="text-3xl font-bold text-white text-center mb-4">10 Industry Context Packs</h2>
-        <p class="text-gray-400 text-center mb-12">Pick your vertical. Each pack is $97 — or grab a bundle below and save big.</p>
+        <p class="text-gray-400 text-center mb-12">Pick your vertical. Each pack is $47 — or grab a bundle below and save big.</p>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4" id="packs-grid">
         </div>
     </div>
@@ -133,10 +133,10 @@
                 <h3 class="text-xl font-bold text-white mb-2">AI Automation Playbook</h3>
                 <p class="text-gray-400 text-sm mb-4">The exact playbook we use to run our AI agent swarm. Covers architecture, prompt design, error handling, and scaling. No theory — just what works.</p>
                 <div class="flex items-baseline gap-2 mb-6">
-                    <span class="text-2xl font-bold text-white">$59</span>
-                    <span class="text-gray-500 text-sm">/ £49</span>
+                    <span class="text-2xl font-bold text-white">$27</span>
+                    <span class="text-gray-500 text-sm">starter guide</span>
                 </div>
-                <a href="https://buy.stripe.com/00w7sLdlL10q4868n5b7y0h" target="_blank" class="block text-center bg-accent hover:bg-accent-light text-black font-semibold px-6 py-3 rounded-xl transition">Buy Playbook →</a>
+                <a href="https://buy.stripe.com/9B68wPftT8sS9sqfPxb7y0z" target="_blank" class="block text-center bg-accent hover:bg-accent-light text-black font-semibold px-6 py-3 rounded-xl transition">Buy Playbook →</a>
             </div>
             <div class="bg-dark-700 rounded-2xl p-8 border border-gray-800 card-glow transition">
                 <div class="text-3xl mb-4">🧠</div>
@@ -220,16 +220,16 @@ const packs = [
 ];
 
 const stripeLinks = {
-    "Fintech": "https://buy.stripe.com/14A9ATepP4cC8omfPxb7y04",
-    "Healthcare": "https://buy.stripe.com/6oUbJ1bdD6kKeMK8n5b7y05",
-    "Legal": "https://buy.stripe.com/cNi5kDa9z10q3428n5b7y06",
-    "Construction / PropTech": "https://buy.stripe.com/6oUcN50yZeRg1ZY8n5b7y07",
-    "Ecommerce / DTC": "https://buy.stripe.com/7sYeVd95vaB08omfPxb7y08",
-    "SaaS / B2B Software": "https://buy.stripe.com/6oU00jftT4cCcEC6eXb7y09",
-    "Real Estate": "https://buy.stripe.com/00w8wP5TjdNcdIGavdb7y0a",
-    "Recruitment / HR": "https://buy.stripe.com/4gM14n5Tj7oO6ge46Pb7y0b",
-    "Manufacturing": "https://buy.stripe.com/6oUeVdgxX38y3425aTb7y0c",
-    "Professional Services": "https://buy.stripe.com/8x2dR9bdD9wWawu9r9b7y0d"
+    "Fintech": "https://buy.stripe.com/3cI5kDdlL9wWawufPxb7y0l",
+    "Healthcare": "https://buy.stripe.com/dRm14ndlL4cCbAy32Lb7y0m",
+    "Legal": "https://buy.stripe.com/fZu00jftT6kKawufPxb7y0n",
+    "Construction / PropTech": "https://buy.stripe.com/00w00ja9zgZo6ge1YHb7y0o",
+    "Ecommerce / DTC": "https://buy.stripe.com/5kQfZh5TjfVkgUSavdb7y0p",
+    "SaaS / B2B Software": "https://buy.stripe.com/fZuaEXepP4cCbAy9r9b7y0q",
+    "Real Estate": "https://buy.stripe.com/eVqbJ1gxXaB08omgTBb7y0r",
+    "Recruitment / HR": "https://buy.stripe.com/bJeaEX4PfbF41ZYfPxb7y0s",
+    "Manufacturing": "https://buy.stripe.com/fZu28repP4cCcEC6eXb7y0t",
+    "Professional Services": "https://buy.stripe.com/7sYdR9gxX24ubAygTBb7y0u"
 };
 
 const packsGrid = document.getElementById('packs-grid');
@@ -240,17 +240,17 @@ packs.forEach(p => {
             <div class="text-3xl mb-3">${p.icon}</div>
             <h3 class="text-lg font-bold text-white mb-2">${p.name}</h3>
             <p class="text-gray-400 text-sm mb-4 flex-1">${p.desc}</p>
-            <div class="text-xl font-bold text-white mb-3">$97</div>
+            <div class="text-xl font-bold text-white mb-3">$47</div>
             <a href="${link}" target="_blank" class="block text-center bg-dark-600 hover:bg-accent text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition">Buy Now →</a>
         </div>`;
 });
 
 const bundles = [
-    { name: "Pick 3", price: "$247", save: "$44", desc: "Choose any 3 industry packs. Great for agencies covering a few verticals.", tag: "" },
-    { name: "Pick 5", price: "$397", save: "$88", desc: "Choose any 5 packs. That's $79/pack — almost half off buying individually twice.", tag: "" },
-    { name: "All 10 Packs", price: "$497", save: "$473", desc: "Every single industry pack. Full coverage across all 10 verticals. Absurd value.", tag: "best-deal" },
-    { name: "Business Swarm Kit", price: "$149", save: "", desc: "Agent configs, encrypted vault setup, CRM integration, and cron scheduling. The infrastructure layer for running your own agent swarm.", tag: "" },
-    { name: "Everything Bundle", price: "$597", save: "$573", desc: "All 10 context packs + the Business Swarm Kit. Everything you need to run intelligent agents across every industry.", tag: "best-deal" },
+    { name: "Pick 3", price: "$97", save: "$44", desc: "Choose any 3 industry packs. Great for agencies covering a few verticals.", tag: "" },
+    { name: "All 10 Packs", price: "$197", save: "$273", desc: "Every single industry pack. Full coverage across all 10 verticals. Absurd value.", tag: "best-deal" },
+    { name: "Business Swarm Kit", price: "$97", save: "", desc: "Agent configs, encrypted vault setup, CRM integration, and cron scheduling. The infrastructure layer for running your own agent swarm.", tag: "" },
+    { name: "Everything Bundle", price: "$247", save: "$320", desc: "All 10 context packs + the Business Swarm Kit. Everything you need to run intelligent agents across every industry.", tag: "best-deal" },
+    { name: "Agency Bundle", price: "$197", save: "", desc: "All 10 packs + white-label rights. Rebrand and use for your clients. Perfect for consultancies and agencies.", tag: "" },
 ];
 
 const bundleStripeLinks = {
@@ -262,11 +262,13 @@ const bundleStripeLinks = {
 const bundlesGrid = document.getElementById('bundles-grid');
 bundles.forEach(b => {
 const bundleStripeLinksAll = {
-        "Pick 3": "https://buy.stripe.com/14A4gzchHfVk486eLtb7y0j",
-        "Pick 5": "https://buy.stripe.com/00wbJ1gxXcJ8486gTBb7y0k",
-        ...bundleStripeLinks
+        "Pick 3": "https://buy.stripe.com/aFaaEX0yZcJ8gUS5aTb7y0v",
+        "All 10 Packs": "https://buy.stripe.com/4gM00jftTcJ8cECgTBb7y0w",
+        "Business Swarm Kit": "https://buy.stripe.com/8x2dR95Tj38yawu6eXb7y0x",
+        "Everything Bundle": "https://buy.stripe.com/cNi7sLepPcJ8dIG9r9b7y0y",
+        "Agency Bundle": "https://buy.stripe.com/aFa9AT1D34cC8omavdb7y0A"
     };
-    const link = bundleStripeLinksAll[b.name] || bundleStripeLinks[b.name] || '#';
+    const link = bundleStripeLinksAll[b.name] || '#';
     bundlesGrid.innerHTML += `
         <div class="bundle-highlight rounded-2xl p-6 card-glow transition flex flex-col ${b.tag}">
             <h3 class="text-xl font-bold text-white mb-2">${b.name}</h3>
