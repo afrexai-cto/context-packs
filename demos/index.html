@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Demos — AfrexAI Agent Technology</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #facc15, #eab308, #fde047); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { dark: { 900: '#0a0a0f', 800: '#12121a', 700: '#1a1a2e', 600: '#252540' }, accent: { DEFAULT: '#eab308', light: '#facc15' } } } }
+        }
+    </script>
+</head>
+<body class="bg-dark-900 text-gray-200 min-h-screen">
+    <nav class="border-b border-gray-800/50 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../" class="text-xl font-bold"><span class="text-white">Afrex</span><span class="gradient-text">AI</span></a>
+            <a href="../" class="text-sm text-gray-400 hover:text-white transition">← Back to Store</a>
+        </div>
+    </nav>
+    <main class="max-w-5xl mx-auto px-6 py-16">
+        <h1 class="text-4xl font-extrabold mb-2"><span class="gradient-text">Live Demos</span></h1>
+        <p class="text-gray-400 mb-12 max-w-xl">Interactive simulations of AfrexAI agent technology. See how our autonomous systems coordinate, scale, and execute.</p>
+
+        <div class="grid gap-6">
+            <a href="multi-level-orchestration.html" class="group block bg-dark-800 border border-gray-800 rounded-xl p-6 hover:border-yellow-500/30 transition">
+                <div class="flex items-start gap-4">
+                    <span class="text-3xl">🌳</span>
+                    <div>
+                        <h2 class="text-lg font-bold text-white group-hover:text-yellow-400 transition">Multi-Level Agent Orchestration</h2>
+                        <p class="text-gray-400 text-sm mt-1">Watch a fractal agent tree spawn up to 7 tiers deep. Agents communicate via markdown files, delegate tasks, and report results — all in real-time. Adjustable speed and depth controls.</p>
+                        <div class="flex gap-3 mt-3">
+                            <span class="text-xs bg-dark-700 text-gray-300 px-2 py-1 rounded">Interactive</span>
+                            <span class="text-xs bg-dark-700 text-gray-300 px-2 py-1 rounded">Real-time</span>
+                            <span class="text-xs bg-dark-700 text-gray-300 px-2 py-1 rounded">7 Agent Tiers</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </main>
+</body>
+</html>
