@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Level Agent Orchestration — Live Demo | AfrexAI</title>
+    <meta name="description" content="Watch a fractal agent tree spawn, communicate, and execute tasks in real-time. 7 tiers of autonomous agents coordinating via markdown files.">
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body, #root { height: 100%; width: 100%; overflow: hidden; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+const { useState, useEffect, useCallback, useRef } = React;
+
+/* ═══════════════════════════════════════════════════════════
+   AFAF FRACTAL AGENT TREE — Live Simulation
+   4 levels: Kael → CC Instance → v4 Swarm → Worker
+   Each agent gets a folder. They talk via .md files.
+   ═══════════════════════════════════════════════════════════ */
+
+const mono = "'JetBrains Mono', 'Fira Code', 'SF Mono', monospace";
+
+const C = {
+  bg: "#06060c", panel: "#0c0c18", card: "#10101e",
+  border: "#1a1a32", text: "#d0d0e4", dim: "#5e5e80", muted: "#2e2e4a",
+  green: "#22c55e", blue: "#3b82f6", amber: "#eab308",
+  red: "#ef4444", purple: "#a855f7", cyan: "#06b6d4", pink: "#ec4899",
+};
+
+const TIER = {
+  0: { label: "ORCHESTRATOR", color: C.cyan, icon: "👁" },
+  1: { label: "CLAUDE CODE", color: C.purple, icon: "⚡" },
+  2: { label: "v4 SWARM", color: C.green, icon: "🧬" },
+  3: { label: "WORKER", color: C.amber, icon: "⚙" },
+  4: { label: "MICRO", color: C.pink, icon: "🔸" },
+  5: { label: "NANO", color: "#f97316", icon: "·" },
+  6: { label: "PICO", color: "#64748b", icon: "⁘" },
+};
+
+let _id = 0;
+const uid = () => `agent-${++_id}`;
+const ts = () => {
+  const d = new Date();
+  return `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}:${String(d.getSeconds()).padStart(2,"0")}`;
+};
+
+const INIT_TREE = () => {
+  _id = 0;
+  return [{ id: uid(), name: "Kael", tier: 0, status: "running", parent: null, folder: "/agents/kael", children: [], files: [], spawned: Date.now() }];
+};
+
+const TEMPLATES = {
+  0: [
+    { name: "CC::VADIS", role: "VADIS deployment" },
+    { name: "CC::KIN", role: "KIN Living ops" },
+    { name: "CC::SiteVoice", role: "SiteVoice build" },
+  ],
+  1: [
+    { name: "v4::Deploy", role: "deployment pipeline" },
+    { name: "v4::Monitor", role: "health checks" },
+    { name: "v4::Sync", role: "data sync" },
+    { name: "v4::Backup", role: "backup & restore" },
+  ],
+  2: [
+    { name: "W::Build", role: "Docker build" },
+    { name: "W::DNS", role: "DNS config" },
+    { name: "W::Test", role: "smoke tests" },
+    { name: "W::Notify", role: "notifications" },
+    { name: "W::Migrate", role: "DB migrations" },
+    { name: "W::Cache", role: "cache warming" },
+  ],
+  3: [
+    { name: "μ::Layer", role: "single Docker layer" },
+    { name: "μ::Assert", role: "single test assertion" },
+    { name: "μ::Record", role: "single DNS record" },
+    { name: "μ::Row", role: "single DB row op" },
+    { name: "μ::Chunk", role: "single file chunk" },
+    { name: "μ::Ping", role: "single endpoint ping" },
+    { name: "μ::Hash", role: "checksum verify" },
+    { name: "μ::Cert", role: "single cert check" },
+  ],
+  4: [
+    { name: "n::Read", role: "read byte range" },
+    { name: "n::Write", role: "write byte range" },
+    { name: "n::Cmp", role: "compare hashes" },
+    { name: "n::Ack", role: "send acknowledgment" },
+    { name: "n::Retry", role: "retry failed op" },
+    { name: "n::Log", role: "append to log" },
+  ],
+  5: [
+    { name: "p::Bit", role: "single bit flip" },
+    { name: "p::Echo", role: "echo confirm" },
+    { name: "p::Nop", role: "no-op heartbeat" },
+    { name: "p::Flag", role: "set status flag" },
+  ],
+};
+
+const mkFile = {
+  spawn: (p, c) => `# SPAWN.md\n**From:** ${p}\n**Spawning:** ${c}\n**Time:** ${ts()}\n**Status:** Initializing workspace...`,
+  task: (f, t) => `# TASK.md\n**From:** ${f}\n**Task:** ${t}\n**Priority:** HIGH\n**Time:** ${ts()}`,
+  status: (n, m) => `# STATUS.md\n**Agent:** ${n}\n**Report:** ${m}\n**Time:** ${ts()}`,
+  result: (n, m) => `# RESULT.md\n**Agent:** ${n}\n**Result:** ${m}\n**Cascade:** ↑ UP\n**Time:** ${ts()}`,
+  heartbeat: (n) => `# HEARTBEAT.md\n**Agent:** ${n}\n**Alive:** true\n**Mem:** ${Math.floor(Math.random()*256)+64}MB\n**Time:** ${ts()}`,
+  inbox: (from, msg) => `# INBOX.md\n**From:** ${from}\n${msg}\n**Time:** ${ts()}`,
+};
+
+const TASKS = [
+  "Clone BRAND_CONFIG.yaml → apply client overrides",
+  "Build Docker image from AFAF template",
+  "Provision Hetzner CX31 instance",
+  "Configure Cloudflare A + CNAME records",
+  "Run smoke test suite against /health",
+  "Generate case study from deploy logs",
+  "Sync CRM records via webhook",
+  "Rotate SSL certificates",
+  "Aggregate metrics for dashboard",
+  "Send deploy confirmation email",
+  "Verify DNS propagation (4 regions)",
+  "Warm TTS cache with client voice",
+  "Execute DB migration v3.2→v3.3",
+  "Update MODULE_REGISTRY endpoints",
+  "Execute lead scoring pipeline",
+  "Compress + upload backup to S3",
+  "Run security audit on exposed ports",
+  "Validate BRAND_CONFIG schema",
+];
+
+const STATUSES = [
+  "Docker layer 14/22 — deps installing",
+  "Health: all endpoints 200 OK",
+  "Waiting for upstream completion",
+  "Batch processing: 47/52 records",
+  "DNS propagation: 3/4 regions ✓",
+  "Build artifact cached — 340MB",
+  "Smoke: 12/12 assertions passed",
+  "Email template compiled",
+  "Cert valid — 89d remaining",
+  "Listening for webhook events",
+  "Idle — no pending tasks",
+  "Memory optimized — 94MB freed",
+];
+
+const RESULTS = [
+  "✓ Deploy complete — live at client.afrexai.com",
+  "✓ All crons healthy — 0 failures / 24h",
+  "✓ 47 CRM records synced — 0 conflicts",
+  "✓ Image pushed — sha256:a8f3c7...",
+  "✓ DNS propagated globally — TTL 300s",
+  "✓ Smoke test passed — p99 42ms",
+  "✓ Lead batch done — 12 hot, 31 warm",
+  "✓ Backup verified — 2.4GB → 680MB compressed",
+  "✓ SSL renewed — exp 2027-02-27",
+  "✓ Case study: 1,200 words generated",
+  "✓ Migration complete — 0 rollbacks",
+  "✓ Cache warm — 3.2s → 180ms first-load",
+];
+
+const pick = (a) => a[Math.floor(Math.random() * a.length)];
+
+function App() {
+  const [agents, setAgents] = useState(INIT_TREE);
+  const [logs, setLogs] = useState([{ time: ts(), type: "system", agent: "AFAF", msg: "Fractal Agent Tree initialized. Kael online. Hit ▶ RUN to start simulation." }]);
+  const [selected, setSelected] = useState(null);
+  const [filePreview, setFilePreview] = useState(null);
+  const [running, setRunning] = useState(false);
+  const [speed, setSpeed] = useState(1200);
+  const [maxTier, setMaxTier] = useState(4);
+  const [stats, setStats] = useState({ spawned: 1, files: 0, msgs: 0, depth: 0 });
+  const logsEnd = useRef(null);
+  const intRef = useRef(null);
+
+  const log = useCallback((type, agent, msg, file) => {
+    setLogs(p => [...p.slice(-100), { time: ts(), type, agent, msg, file }]);
+    setStats(p => ({ ...p, msgs: p.msgs + 1 }));
+  }, []);
+
+  const writeFile = useCallback((agentId, name, content) => {
+    setAgents(p => p.map(a => a.id === agentId ? { ...a, files: [...a.files.slice(-8), { name, content, time: ts() }] } : a));
+    setStats(p => ({ ...p, files: p.files + 1 }));
+  }, []);
+
+  const spawnChild = useCallback((parentId) => {
+    setAgents(prev => {
+      const parent = prev.find(a => a.id === parentId);
+      if (!parent || parent.tier >= maxTier) return prev;
+      const maxKids = parent.tier === 0 ? 3 : parent.tier === 1 ? 4 : parent.tier === 2 ? 6 : 8;
+      if (parent.children.length >= maxKids) return prev;
+
+      const tmpls = TEMPLATES[parent.tier] || TEMPLATES[2];
+      const used = parent.children.map(cid => prev.find(a => a.id === cid)?.name).filter(Boolean);
+      const avail = tmpls.filter(t => !used.includes(t.name));
+      if (!avail.length) return prev;
+
+      const tmpl = pick(avail);
+      const cid = uid();
+      const child = {
+        id: cid, name: tmpl.name, tier: parent.tier + 1,
+        status: "spawning", parent: parentId,
+        folder: `${parent.folder}/${tmpl.name.toLowerCase().replace(/[^a-z0-9]/g, "-")}`,
+        children: [], files: [], spawned: Date.now(),
+      };
+
+      log("spawn", parent.name, `↳ Spawning ${child.name} for ${tmpl.role}`, `${child.folder}/SPAWN.md`);
+
+      setTimeout(() => {
+        setAgents(p => p.map(a => a.id === cid ? { ...a, status: "running" } : a));
+        writeFile(cid, "SPAWN.md", mkFile.spawn(parent.name, child.name));
+        writeFile(cid, "STATUS.md", mkFile.status(child.name, "Workspace initialized — ready"));
+        log("info", child.name, `Online at ${child.folder}/`);
+      }, 500);
+
+      setStats(p => ({ ...p, spawned: p.spawned + 1 }));
+      return [...prev.map(a => a.id === parentId ? { ...a, children: [...a.children, cid] } : a), child];
+    });
+  }, [log, writeFile, maxTier]);
+
+  const tick = useCallback(() => {
+    setAgents(prev => {
+      const alive = prev.filter(a => a.status === "running");
+      if (!alive.length) return prev;
+      const agent = pick(alive);
+      const r = Math.random();
+
+      if (r < 0.28 && agent.tier < maxTier) {
+        const mx = agent.tier === 0 ? 3 : agent.tier === 1 ? 4 : agent.tier === 2 ? 6 : 8;
+        if (agent.children.length < mx) setTimeout(() => spawnChild(agent.id), 0);
+        else {
+          const m = pick(STATUSES);
+          writeFile(agent.id, "STATUS.md", mkFile.status(agent.name, m));
+          log("status", agent.name, m);
+        }
+      } else if (r < 0.5) {
+        const kids = prev.filter(a => a.parent === agent.id && a.status === "running");
+        if (kids.length) {
+          const kid = pick(kids);
+          const task = pick(TASKS);
+          writeFile(kid.id, "TASK.md", mkFile.task(agent.name, task));
+          log("task", agent.name, `→ ${kid.name}: ${task}`);
+        }
+      } else if (r < 0.72) {
+        const par = prev.find(a => a.id === agent.parent);
+        if (par) {
+          const res = pick(RESULTS);
+          writeFile(agent.id, "RESULT.md", mkFile.result(agent.name, res));
+          writeFile(par.id, `INBOX-${agent.name}.md`, mkFile.inbox(agent.name, res));
+          log("result", agent.name, `↑ ${par.name}: ${res}`);
+        }
+      } else if (r < 0.86) {
+        writeFile(agent.id, "HEARTBEAT.md", mkFile.heartbeat(agent.name));
+        log("heartbeat", agent.name, `♥ ${Math.floor(Math.random()*256)+64}MB`);
+      } else {
+        const m = pick(STATUSES);
+        writeFile(agent.id, "STATUS.md", mkFile.status(agent.name, m));
+        log("status", agent.name, m);
+      }
+      return prev;
+    });
+  }, [spawnChild, log, writeFile, maxTier]);
+
+  useEffect(() => {
+    if (running) intRef.current = setInterval(tick, speed);
+    else clearInterval(intRef.current);
+    return () => clearInterval(intRef.current);
+  }, [running, speed, tick]);
+
+  useEffect(() => { logsEnd.current?.scrollIntoView({ behavior: "smooth" }); }, [logs]);
+
+  useEffect(() => {
+    const depth = (id, all) => {
+      const ch = all.filter(a => a.parent === id);
+      return ch.length ? 1 + Math.max(...ch.map(c => depth(c.id, all))) : 0;
+    };
+    const root = agents.find(a => !a.parent);
+    if (root) setStats(p => ({ ...p, depth: depth(root.id, agents) }));
+  }, [agents]);
+
+  const reset = () => {
+    setAgents(INIT_TREE());
+    setLogs([{ time: ts(), type: "system", agent: "AFAF", msg: "Reset. Kael online." }]);
+    setStats({ spawned: 1, files: 0, msgs: 0, depth: 0 });
+    setMaxTier(4);
+    setSelected(null);
+    setFilePreview(null);
+    setRunning(false);
+  };
+
+  const sel = agents.find(a => a.id === selected);
+  const logCol = { system: C.cyan, spawn: C.purple, task: C.blue, result: C.green, status: C.dim, heartbeat: C.muted, info: C.blue };
+  const logIcon = { system: "◆", spawn: "+", task: "→", result: "↑", status: "·", heartbeat: "♥", info: "ℹ" };
+
+  return (
+    <div style={{ background: C.bg, color: C.text, fontFamily: mono, fontSize: 12, height: "100vh", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: ${C.muted}; border-radius: 2px; }
+        @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:.4 } }
+        @keyframes fadeIn { from { opacity:0; transform:translateX(-6px) } to { opacity:1; transform:translateX(0) } }
+      `}</style>
+
+      {/* HEADER */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 20px", borderBottom: `1px solid ${C.border}`, background: C.panel, flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span style={{ fontSize: 22 }}>🌳</span>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "1px" }}>AFAF <span style={{ color: C.cyan }}>FRACTAL TREE</span></div>
+            <div style={{ fontSize: 8, color: C.dim, letterSpacing: "2px" }}>EPHEMERAL AGENTS · MARKDOWN COMMS · ADJUSTABLE DEPTH</div>
+          </div>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          {[
+            { l: "AGENTS", v: stats.spawned, c: C.purple },
+            { l: "FILES", v: stats.files, c: C.green },
+            { l: "MSGS", v: stats.msgs, c: C.blue },
+            { l: "DEPTH", v: `${stats.depth}/${maxTier}`, c: stats.depth >= maxTier ? C.green : C.amber },
+          ].map(s => (
+            <div key={s.l} style={{ textAlign: "center", minWidth: 44 }}>
+              <div style={{ fontSize: 15, fontWeight: 700, color: s.c }}>{s.v}</div>
+              <div style={{ fontSize: 7, color: C.dim, letterSpacing: "1px" }}>{s.l}</div>
+            </div>
+          ))}
+          <div style={{ width: 1, height: 28, background: C.border }} />
+          <button onClick={() => setSpeed(s => Math.max(400, s - 200))} style={btnStyle}>◀</button>
+          <span style={{ fontSize: 9, color: C.muted, minWidth: 40, textAlign: "center" }}>{speed}ms</span>
+          <button onClick={() => setSpeed(s => Math.min(3000, s + 200))} style={btnStyle}>▶</button>
+          <div style={{ width: 1, height: 28, background: C.border }} />
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <span style={{ fontSize: 8, color: C.dim, letterSpacing: "1px" }}>DEPTH</span>
+            <button onClick={() => setMaxTier(t => Math.max(1, t - 1))} style={btnStyle}>−</button>
+            <span style={{ fontSize: 13, fontWeight: 700, color: stats.depth >= maxTier ? C.green : C.amber, minWidth: 18, textAlign: "center" }}>{maxTier}</span>
+            <button onClick={() => setMaxTier(t => Math.min(6, t + 1))} style={btnStyle}>+</button>
+          </div>
+          <div style={{ width: 1, height: 28, background: C.border }} />
+          <button onClick={() => setRunning(!running)} style={{ ...btnStyle, color: running ? C.red : C.green, borderColor: running ? `${C.red}40` : `${C.green}40`, background: running ? `${C.red}15` : `${C.green}15`, padding: "5px 14px", fontWeight: 700, letterSpacing: "1px" }}>
+            {running ? "■ STOP" : "▶ RUN"}
+          </button>
+          <button onClick={reset} style={btnStyle}>↺</button>
+        </div>
+      </div>
+
+      {/* MAIN */}
+      <div style={{ flex: 1, display: "grid", gridTemplateColumns: "280px 1fr 300px", overflow: "hidden" }}>
+
+        {/* LEFT — TREE */}
+        <div style={{ borderRight: `1px solid ${C.border}`, display: "flex", flexDirection: "column" }}>
+          <div style={{ padding: "8px 14px", borderBottom: `1px solid ${C.border}`, fontSize: 8, fontWeight: 700, letterSpacing: "2px", color: C.dim }}>AGENT TREE</div>
+          <div style={{ flex: 1, overflow: "auto", padding: 6 }}>
+            {agents.filter(a => !a.parent).map(r => (
+              <AgentNode key={r.id} agent={r} agents={agents} d={0} sel={selected} onSel={setSelected} onSpawn={spawnChild} />
+            ))}
+          </div>
+          <div style={{ padding: "8px 14px", borderTop: `1px solid ${C.border}`, display: "flex", gap: 10, flexWrap: "wrap" }}>
+            {Object.entries(TIER).map(([t, c]) => (
+              <div key={t} style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                <div style={{ width: 5, height: 5, borderRadius: "50%", background: c.color }} />
+                <span style={{ fontSize: 7, color: C.dim }}>L{t} {c.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CENTER — LOG */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ padding: "8px 14px", borderBottom: `1px solid ${C.border}`, display: "flex", justifyContent: "space-between" }}>
+            <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "2px", color: C.dim }}>LIVE FEED — MARKDOWN FILE I/O</span>
+            <div style={{ display: "flex", gap: 10 }}>
+              {["spawn","task","result","status"].map(t => (
+                <span key={t} style={{ fontSize: 7, color: logCol[t] }}>● {t.toUpperCase()}</span>
+              ))}
+            </div>
+          </div>
+          <div style={{ flex: 1, overflow: "auto", padding: "2px 10px" }}>
+            {logs.map((l, i) => (
+              <div key={i} style={{ display: "flex", gap: 6, padding: "2px 0", opacity: i < logs.length - 30 ? 0.3 : 1, animation: i === logs.length - 1 ? "fadeIn .25s" : "none" }}>
+                <span style={{ color: C.muted, minWidth: 52, flexShrink: 0, fontSize: 10 }}>{l.time}</span>
+                <span style={{ color: logCol[l.type] || C.dim, minWidth: 10, fontSize: 11 }}>{logIcon[l.type] || "·"}</span>
+                <span style={{ color: TIER[agents.find(a => a.name === l.agent)?.tier]?.color || C.cyan, minWidth: 80, fontWeight: 600, fontSize: 10, flexShrink: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{l.agent}</span>
+                <span style={{ color: C.text, fontSize: 10, flex: 1 }}>{l.msg}</span>
+              </div>
+            ))}
+            <div ref={logsEnd} />
+          </div>
+          {filePreview && (
+            <div style={{ borderTop: `1px solid ${C.border}`, background: C.panel, maxHeight: 150, overflow: "auto", padding: 10 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                <span style={{ fontSize: 10, color: C.cyan, fontWeight: 600 }}>📄 {filePreview.name}</span>
+                <span onClick={() => setFilePreview(null)} style={{ color: C.dim, cursor: "pointer", fontSize: 10 }}>✕</span>
+              </div>
+              <pre style={{ fontSize: 10, color: C.text, whiteSpace: "pre-wrap", lineHeight: 1.5, opacity: 0.85 }}>{filePreview.content}</pre>
+            </div>
+          )}
+        </div>
+
+        {/* RIGHT — INSPECTOR */}
+        <div style={{ borderLeft: `1px solid ${C.border}`, display: "flex", flexDirection: "column" }}>
+          <div style={{ padding: "8px 14px", borderBottom: `1px solid ${C.border}`, fontSize: 8, fontWeight: 700, letterSpacing: "2px", color: C.dim }}>
+            {sel ? "AGENT INSPECTOR" : "SELECT AN AGENT"}
+          </div>
+          {sel ? (
+            <div style={{ flex: 1, overflow: "auto", padding: 10 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+                <span style={{ fontSize: 22 }}>{TIER[sel.tier].icon}</span>
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: TIER[sel.tier].color }}>{sel.name}</div>
+                  <div style={{ fontSize: 8, color: C.dim, letterSpacing: "1px" }}>{TIER[sel.tier].label} · TIER {sel.tier}</div>
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 14 }}>
+                {[
+                  { l: "Status", v: sel.status, c: sel.status === "running" ? C.green : C.amber },
+                  { l: "Children", v: sel.children.length, c: C.purple },
+                  { l: "Files", v: sel.files.length, c: C.blue },
+                  { l: "Tier", v: sel.tier, c: TIER[sel.tier].color },
+                ].map(s => (
+                  <div key={s.l} style={{ background: C.card, borderRadius: 5, padding: "6px 8px", border: `1px solid ${C.border}` }}>
+                    <div style={{ fontSize: 7, color: C.dim, letterSpacing: "1px" }}>{s.l.toUpperCase()}</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: s.c }}>{s.v}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ background: `${C.cyan}08`, border: `1px solid ${C.cyan}15`, borderRadius: 4, padding: "5px 8px", marginBottom: 14 }}>
+                <div style={{ fontSize: 7, color: C.cyan, letterSpacing: "1px" }}>WORKSPACE PATH</div>
+                <div style={{ fontSize: 10, color: C.text, marginTop: 1 }}>{sel.folder}/</div>
+              </div>
+
+              <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "1.5px", color: C.dim, marginBottom: 6 }}>FILES ({sel.files.length})</div>
+              {sel.files.length === 0 ? (
+                <div style={{ fontSize: 9, color: C.muted, padding: 6 }}>Initializing...</div>
+              ) : sel.files.map((f, i) => (
+                <div key={i} onClick={() => setFilePreview(f)} style={{
+                  display: "flex", justifyContent: "space-between", alignItems: "center",
+                  padding: "4px 6px", borderRadius: 3, cursor: "pointer", marginBottom: 1,
+                  background: filePreview?.name === f.name && filePreview?.time === f.time ? `${C.blue}12` : "transparent",
+                }}>
+                  <span style={{ fontSize: 10, color: C.text }}>📄 {f.name}</span>
+                  <span style={{ fontSize: 8, color: C.muted }}>{f.time}</span>
+                </div>
+              ))}
+
+              {sel.tier < maxTier && (
+                <button onClick={() => spawnChild(sel.id)} style={{
+                  width: "100%", marginTop: 14, padding: "7px 0",
+                  background: `${(TIER[sel.tier+1]?.color)||C.dim}12`,
+                  border: `1px solid ${(TIER[sel.tier+1]?.color)||C.dim}25`,
+                  borderRadius: 4, color: (TIER[sel.tier+1]?.color)||C.dim,
+                  fontSize: 9, fontWeight: 700, letterSpacing: "1px", cursor: "pointer", fontFamily: mono,
+                }}>+ SPAWN {TIER[sel.tier+1]?.label || `L${sel.tier+1}`}</button>
+              )}
+            </div>
+          ) : (
+            <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 6 }}>
+              <span style={{ fontSize: 28, opacity: 0.2 }}>🌳</span>
+              <span style={{ fontSize: 9, color: C.muted, letterSpacing: "1px" }}>Click an agent</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AgentNode({ agent, agents, d, sel, onSel, onSpawn }) {
+  const kids = agents.filter(a => a.parent === agent.id);
+  const t = TIER[agent.tier];
+  const active = sel === agent.id;
+  const isAlive = agent.status === "running";
+
+  return (
+    <div style={{ animation: "fadeIn .3s ease-out" }}>
+      <div
+        onClick={() => onSel(agent.id)}
+        style={{
+          display: "flex", alignItems: "center", gap: 6,
+          padding: "5px 6px", marginLeft: d * 16, borderRadius: 4,
+          cursor: "pointer", transition: "background .15s",
+          background: active ? `${t.color}10` : "transparent",
+          borderLeft: d > 0 ? `2px solid ${t.color}25` : `3px solid ${t.color}40`,
+        }}
+      >
+        <div style={{
+          width: 7, height: 7, borderRadius: "50%", flexShrink: 0,
+          background: isAlive ? t.color : agent.status === "spawning" ? C.amber : C.muted,
+          boxShadow: isAlive ? `0 0 6px ${t.color}` : "none",
+          animation: isAlive ? "pulse 2s infinite" : agent.status === "spawning" ? "pulse .5s infinite" : "none",
+        }} />
+        <span style={{ fontSize: 10 }}>{t.icon}</span>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 10, fontWeight: 600, color: C.text, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{agent.name}</div>
+          <div style={{ fontSize: 7, color: C.dim }}>{t.label}</div>
+        </div>
+        <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
+          {agent.files.length > 0 && <span style={{ fontSize: 7, color: C.muted }}>📄{agent.files.length}</span>}
+          {kids.length > 0 && <span style={{ fontSize: 7, color: t.color }}>{kids.length}↓</span>}
+        </div>
+      </div>
+      {kids.map(k => <AgentNode key={k.id} agent={k} agents={agents} d={d+1} sel={sel} onSel={onSel} onSpawn={onSpawn} />)}
+    </div>
+  );
+}
+
+const btnStyle = {
+  background: C.card, border: `1px solid ${C.border}`, borderRadius: 4,
+  color: C.dim, padding: "4px 8px", cursor: "pointer", fontSize: 10, fontFamily: mono,
+};
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+    </script>
+</body>
+</html>
